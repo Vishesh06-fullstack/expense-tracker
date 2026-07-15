@@ -1,3 +1,4 @@
+require('dotenv').config();
 let nodemailer = require("nodemailer");
 
 let transporter = nodemailer.createTransport({
@@ -20,6 +21,7 @@ const sendEmail = async (otp, email) => {
         `,
     };
     const info = await transporter.sendMail(mailOptions);
+    console.log(info);
     console.log("Email sent :", info.messageId);
     return true;
   } catch (error) {

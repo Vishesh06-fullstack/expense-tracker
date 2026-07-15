@@ -31,7 +31,7 @@ const UserSchema = new Schema(
     },
 
     // otp verify
-    Otp: {
+    otp: {
       type: String,
       default: null,
     },
@@ -44,6 +44,14 @@ const UserSchema = new Schema(
       default: 0,
     },
     lastOtpSent: {
+      type: Date,
+      default: null,
+    },
+    resetOtp: {
+      type: String,
+      default: null,
+    },
+    resetOtpExpiry: {
       type: Date,
       default: null,
     },

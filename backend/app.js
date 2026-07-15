@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const authRoutes = require("./routes/auth.js");
 const test = require("./routes/protect.js");
+const expenseRoutes = require("./routes/expense.js")
 
 const { connectDB } = require("./db.js");
 
@@ -18,6 +19,7 @@ connectDB();
 app.use("/get" , test);
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/expense" , expenseRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is connected at ${PORT}`);
