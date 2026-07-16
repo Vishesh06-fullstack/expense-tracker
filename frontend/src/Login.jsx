@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 import Navbar from "../Navbar";
+import OtpVerify from "../OtpVerify";
+import ResetPassword from "../ResetPassword";
+
+
 // import {useNavigate} from "react-router-dom"
 
 function Login() {
@@ -21,13 +25,12 @@ function Login() {
             </div>
             <div className="flex justify-center items-center h-screen pt-6 bg-[#FAF9F6] ">
                 
-                <div className="grid grid-cols-2">
-                    <div className="bg-white p-5 rounded border-2 max-w-2/3 hover:bg-gray-100">
-                        <h2 className="text-center mb-2">Login</h2>
+                    <div className="bg-white p-5 rounded border-2 w-90 h-80 hover:bg-gray-100">
+                        <h2 className="text-center text-2xl mb-2">Login</h2>
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
+                            <div className="mb-4 flex flex-col">
                                 <label htmlFor="email">
-                                    <strong className="font-normal">Email</strong>
+                                    <strong className="font-medium">Email </strong>
                                 </label>
                                 <input
                                     type="text"
@@ -39,9 +42,9 @@ function Login() {
 
                                 />
                             </div>
-                            <div className="mb-4">
+                            <div className="mb-4 flex flex-col">
                                 <label htmlFor="email">
-                                    <strong className="font-normal">Password</strong>
+                                    <strong className="font-medium">Password</strong>
                                 </label>
                                 <input
                                     type="text"
@@ -53,26 +56,23 @@ function Login() {
 
                                 />
                             </div>
-                            <button type="submit" className="btn bg-emerald-500 w-full rounded-none">
+                            <button type="submit" className="text-center text-[15px] py-1 px-3 w-full mt-3 mr-1 bg-[#10B981] text-white rounded-xl hover:bg-blue-800">
                                 Login
                             </button>
-                            <div className="text-[11px] font-normal flex justify-center p-2 text-blue-800 items-center">
-                                <a href="#">Forget Password</a>
+                            <div className="text-[14px] font-normal flex justify-center p-2 text-blue-800 items-center">
+                                <a href="/ResetPassword">Forget Password</a>
                             </div>
 
                             <div className="p-1">
-                                <p className="text-[12px]">Already Have an Account ? <a href="/Signup" className="text-blue-800">Signup</a></p>
+                                <p className="text-[15px]">Already Have an Account ? <a href="/Signup" className="text-blue-800">Signup</a></p>
                             </div>
 
 
 
                         </form>
                     </div>
-                    <div>
-                        <img src="https://moneypatrol.com/moneytalk/wp-content/uploads/2023/07/budget684.png"></img>
-                    </div>
-                </div>
 
+                    
 
             </div>
         </>
