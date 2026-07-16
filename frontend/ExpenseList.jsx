@@ -14,9 +14,9 @@ export default function ExpenseList(){
 
 return(
 
-<div className="bg-white shadow rounded-xl p-5 mr-5">
+<div className="bg-white shadow rounded-xl p-6 pt-8 mr-5">
 
-<h2 className="text-1xl font-normal mb-2">
+<h2 className="text-2xl font-normal mb-2">
 Categories
 </h2>
 
@@ -24,7 +24,7 @@ Categories
 
 <div
 key={index}
-className="flex justify-between text-[12px] py-1.5 border-b border-gray-400"
+className="flex justify-between text-[20px] py-2 border-b border-gray-400"
 >
 
 <span>{item[0]}</span>

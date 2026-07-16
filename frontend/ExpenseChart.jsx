@@ -34,18 +34,18 @@ export default function ExpenseChart(){
 
 return(
 
-<div className="bg-white rounded-xl shadow p-5 w-155 ml-5">
+<div className="bg-white rounded-xl shadow p-6 pt-8  ml-5">
 
-<h1 className="text-1xl font-normal mb-3">
+<h1 className="text-2xl font-normal mb-3">
 Total Expenses
 </h1>
 
-<PieChart width={500} height={300}>
+<PieChart width={900} height={530}>
 
 <Pie
 data={data}
-innerRadius={80}
-outerRadius={120}
+innerRadius={150}
+outerRadius={200}
 dataKey="value"
 label={({ name }) => name}
 >

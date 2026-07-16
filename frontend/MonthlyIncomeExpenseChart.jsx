@@ -20,12 +20,12 @@ const data = [
 
 export default function MonthlyIncomeExpenseChart() {
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-2 w-full h-[295px]">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-2 w-full h-80">
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-gray-800">
           Monthly Income vs Expense
         </h2>
-        <p className="text-sm text-gray-500">
+        <p className="text-sans text-gray-500">
           Compare your monthly income and expenses.
         </p>
       </div>
@@ -34,15 +34,15 @@ export default function MonthlyIncomeExpenseChart() {
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="4 4" />
 
-          <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+          <XAxis dataKey="month" tick={{ fontSize: 13 }} />
 
-          <YAxis tick={{ fontSize: 10 }} />
+          <YAxis tick={{ fontSize: 13 }} />
 
           <Tooltip
             formatter={(value) => [`₹${value.toLocaleString()}`, "Amount"]}
           />
 
-          <Legend wrapperStyle={{ fontSize: "12px",paddingBottom: "6px" }} />
+          <Legend wrapperStyle={{ fontSize: "15px",paddingBottom: "6px" }} />
 
           <Bar
             dataKey="income"

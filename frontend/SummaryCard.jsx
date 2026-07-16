@@ -6,14 +6,14 @@ export default function SmartCard({
   h,
 }) {
   return (
-    <div className="bg-[#FFFFFF] rounded-xl shadow-1xl p-2 text-left w-55 h-25 flex justify-around ">
+    <div className="bg-[#FFFFFF] rounded-xl shadow-1xl p-3 text-left w-75 h-35 flex justify-around ">
 
       <div>
-        <h1 className={`text-2xl font-bold ${color}`}>
+        <h1 className={`text-4xl font-bold ${color}`}>
           {amount}
         </h1>
 
-        <p className="text-[#1E293B] text-1xl mt-1">
+        <p className="text-[#1E293B] text-2xl mt-2">
           {title}
         </p>
       </div>
