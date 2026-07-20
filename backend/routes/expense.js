@@ -1,6 +1,7 @@
 const express = require("express");
 const Expense = require("../model/ExpenseModel");
 const authMiddleware = require("../middleware/auth.js");
+const mongoose = require("mongoose");
 // const app = express();
 const router = express.Router();
 
@@ -42,55 +43,65 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/summary" , authMiddleware , async(req , res) => {
+router.get("/summary", authMiddleware, async (req, res) => {
     try {
-        const userId = req.userId;
+       console.log("Step 1: userId =", req.userId);
+        const userId = new mongoose.Types.ObjectId(req.userId); // Fix 1: conversion
+           console.log("Step 2: converted userId =", userId);
 
-        //total income
-        const incomeResult = await Expense.aggregate([{$match : {user : userId , type : 'income'}} , 
-            {$group : {_id : null , total : {$sum : "$amount"}}}
+        const incomeResult = await Expense.aggregate([
+            { $match: { user: userId, type: 'income' } },
+            { $group: { _id: null, total: { $sum: "$amount" } } }
+        ]);
+            console.log("Step 3: income done");
+
+        const totalExpenses = await Expense.aggregate([
+            { $match: { user: userId, type: 'expense' } },  // Fix 2: singular
+            { $group: { _id: null, total: { $sum: "$amount" } } }
+        ]);
+            console.log("Step 3: expense done");
+
+        const category = await Expense.aggregate([
+            { $match: { user: userId, type: 'expense' } },  // Fix 2: singular
+            { $group: { _id: "$category", total: { $sum: "$amount" } } },
+            { $sort: { total: -1 } }
+        ]);
+          console.log("Step 5: category done");
+
+        const monthlyTrend = await Expense.aggregate([
+            { $match: { user: userId } },
+            {
+                $group: {
+                    _id: {
+                        month: { $month: "$date" },
+                        year: { $year: "$date" },
+                        type: "$type"
+                    },
+                    total: { $sum: "$amount" }
+                }
+            },
+            { $sort: { "_id.year": 1, "_id.month": 1 } }
         ]);
 
-        const totalExpenses = await Expense.aggregate([{$match : {user : userId , type : 'expenses' }} , 
-            {$group : {id : null , total : {$sum : "$amount"}}}
-        ]);
-
-        const category = await Expense.aggregate([{$match : {user : userId , type : 'expenses'}} , 
-            {$group : {_id : "$category" , total : {$sum : "$amount"}}},
-            {$sort : {total : -1}}
-        ]);
-
-        const monthlyTrend = await Expense.aggregate([{$match : {user : userId }} , {
-            $group : {
-                _id: {
-                    month : {$month : "$date"},
-                    year : {$year : "$date"},
-                    type : "$type"
-                },
-                total : {$sum : "$amount"}
-            }
-        } , 
-        {$sort : {"_id.year": 1 , "_id.month":1}}
-    ]);
-
-        const trasactionCount = await Expense.countDocuments({user : userId});
+         console.log("Step 6: monthlyTrend done");
+        const transactionCount = await Expense.countDocuments({ user: userId });
 
         const totalIncome = incomeResult[0]?.total || 0;
         const totalExpense = totalExpenses[0]?.total || 0;
         const balance = totalIncome - totalExpense;
 
-        return res.status(200).json({message : 
-            "successfull summary given" ,
-             totalIncome ,
-             totalExpense,
-             balance,
-             trasactionCount,
-             category,
-             monthlyTrend
+        return res.status(200).json({
+            message: "successfull summary given",
+            totalIncome,
+            totalExpense,
+            balance,
+            transactionCount,
+            category,
+            monthlyTrend
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({message : error.message})
+        return res.status(500).json({ message: error.message });
     }
 });
 
@@ -98,7 +109,6 @@ router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const expense = await Expense.findById(req.params.id);
     console.log(user);
-
     if (!expense) {
       return res.status(404).json({ message: "Expense not found" });
     }
@@ -143,7 +153,6 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-//delete
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const expense = await Expense.findById(req.params.id);

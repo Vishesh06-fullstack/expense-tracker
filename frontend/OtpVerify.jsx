@@ -1,32 +1,63 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom';
-import Login from "./src/Login";
-// import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import { useEffect } from "react";
 
 function OtpVerify() {
-    // const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [otp, setOtp] = useState("");
+      const navigate = useNavigate();
+    const [data , setData] = useState({
+        email : "",
+        otp : ""
+    });
+    useEffect(() => {
+        const savedEmail = localStorage.getItem("email");
+        setData((prev) => ({...prev , email : savedEmail}))
+    }, []);
 
     const handleOtpChange = (e) => {
-        const value = e.target.value;
-
-        // Sirf numbers allow karo, aur max 6 digits
-        if (/^\d{0,6}$/.test(value)) {
-            setOtp(value);
-        }
-
-
-        //value true 
-        // navigate("/Login")
+        const {name , value} = e.target;
+        setData((prev) => ({
+            ...prev , [name] : value
+        }))
     };
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:5000/api/v1/auth/verify-otp" , data );
+            console.log(response);
+            toast.success("otp verified")
+            setData({
+                email : "",
+                otp : ""
+            });
+            if(response.status === 200){
+                localStorage.removeItem("email");
+                navigate("/Login")
+            }
+        } catch (error) {
+             toast.error(error.response?.data?.message || "Failed to Submit data");
+        }
+    }
+
+    const handleResendOtp = async(e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/v1/auth/resend-otp' , {email : data.email});
+            console.log(response.data);
+            toast.success(response.data.message);
+        } catch (error) {
+           toast.error(error.response?.data?.message || "Failed to resend OTP");
+        }
+    } 
 
     return (
         <div className="flex justify-center items-center h-screen pt-6 bg-[#FAF9F6]">
             <div className="bg-white p-5 rounded border-2 w-90 h-80 hover:bg-gray-100">
                 <h2 className="text-center text-2xl mb-2">Otp Verify</h2>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4 flex flex-col">
                         <label htmlFor="email">
                             <strong className="font-medium">Email</strong>
@@ -37,8 +68,8 @@ function OtpVerify() {
                             placeholder="Enter Email"
                             autoComplete="off"
                             name="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={data.email}
+                            onChange={handleOtpChange}
                             className="border border-gray-300 rounded-none px-3 py-2 text-sm w-full"
                         />
                     </div>
@@ -54,7 +85,7 @@ function OtpVerify() {
                             placeholder="Enter 6-digit otp"
                             autoComplete="off"
                             maxLength={6}
-                            value={otp}
+                            value={data.otp}
                             name="otp"
                             onChange={handleOtpChange}
                             className="border border-gray-300 rounded-none px-3 py-2 text-sm w-full"
@@ -69,7 +100,7 @@ function OtpVerify() {
                     </button>
 
                     <div className="text-[14px] font-normal flex justify-center p-2 text-blue-800 items-center">
-                        <a href="#">Resend Otp</a>
+                        <button className="cursor" type="button" onClick={handleResendOtp}>Resend Otp</button>
                     </div>
                 </form>
             </div>
