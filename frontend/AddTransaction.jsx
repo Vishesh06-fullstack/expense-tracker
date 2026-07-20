@@ -23,14 +23,14 @@ function AddTransaction() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
+    
 
-    console.log("Axios baseURL:", axios.defaults.baseURL);
+   
     try {
       const token = localStorage.getItem("token");
       console.log("TOKEN VALUE:", token)
       const response = await axios.post(
-        "http://localhost:5000/api/v1/expense",
+        `${import.meta.env.VITE_API_URL}/expense`,
         formData,
         {
           headers: {

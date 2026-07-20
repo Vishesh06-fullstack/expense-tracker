@@ -25,7 +25,7 @@ function ResetPassword() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/forgot-password",
+        `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
         { email: data.email }
       );
       toast.success(response.data.message);
@@ -40,7 +40,7 @@ function ResetPassword() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/verify-reset-otp",
+        `${import.meta.env.VITE_API_URL}/auth/verify-reset-otp`,
         { email: data.email, otp: data.otp }
       );
       toast.success("OTP verified");
@@ -56,7 +56,7 @@ function ResetPassword() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/reset-password",
+        `${import.meta.env.VITE_API_URL}/auth/reset-password`,
         { resetToken: data.resetToken, newPassword: data.newPassword }
       );
       toast.success(response.data.message);

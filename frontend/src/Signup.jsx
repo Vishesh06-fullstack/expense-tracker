@@ -26,7 +26,7 @@ function Signup() {
     try {
       // backend submission logic
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         formData
       );
       console.log(response.data);

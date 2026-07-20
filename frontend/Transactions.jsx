@@ -12,7 +12,7 @@ function Transactions() {
   const getLastData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/v1/expense",
+        `${import.meta.env.VITE_API_URL}/expense`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setTransactions(response.data.user);
@@ -29,7 +29,7 @@ function Transactions() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/v1/expense/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/expense/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTransactions((prev) => prev.filter((item) => item._id !== id));
@@ -51,7 +51,7 @@ function Transactions() {
   const handleSave = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/v1/expense/${editingItems._id}`,
+        `${import.meta.env.VITE_API_URL}/expense/${editingItems._id}`,
         editingItems,
         { headers: { Authorization: `Bearer ${token}` } }
       );

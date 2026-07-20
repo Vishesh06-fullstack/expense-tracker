@@ -15,7 +15,7 @@ export default function ExpenseList() {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:5000/api/v1/expense/summary",
+         `${import.meta.env.VITE_API_URL}/expense/summary`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 

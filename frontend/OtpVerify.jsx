@@ -25,7 +25,7 @@ function OtpVerify() {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/v1/auth/verify-otp" , data );
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/verify-otp` , data );
             console.log(response);
             toast.success("otp verified")
             setData({
@@ -44,7 +44,7 @@ function OtpVerify() {
     const handleResendOtp = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/auth/resend-otp' , {email : data.email});
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/resend-otp` , {email : data.email});
             console.log(response.data);
             toast.success(response.data.message);
         } catch (error) {
