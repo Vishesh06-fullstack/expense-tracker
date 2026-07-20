@@ -9,6 +9,7 @@ let transporter = nodemailer.createTransport({
   },
 });
 
+
 const sendEmail = async (otp, email) => {
   try {
     const mailOptions = {

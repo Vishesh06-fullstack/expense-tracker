@@ -43,7 +43,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,7 +66,7 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" },
     );
 
-    res.json({
+    res.status(200).json({
       message: "Login successfully",
       token,
       user: { id: user._id, name: user.name, email: user.email },
@@ -76,7 +75,6 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ message: "Login failed check Credentials" });
   }
 });
-
 
 router.post("/verify-otp", async (req, res) => {
   try {
@@ -101,7 +99,7 @@ router.post("/verify-otp", async (req, res) => {
     user.otpExpiry = null;
     await user.save();
 
-    res.json({ message: "Account verified successfully" });
+    res.status(200).json({ message: "Account verified successfully" });
   } catch (error) {
     return res.status(500).json({ message: "failing in otp verification" });
   }
@@ -134,7 +132,6 @@ router.post("/resend-otp", async (req, res) => {
   }
 });
 
-
 router.post("/forgot-password", async (req, res) => {
   try {
     const { email } = req.body;
@@ -165,7 +162,6 @@ router.post("/forgot-password", async (req, res) => {
     return res.status(500).json({ message: "Error in forgot password" });
   }
 });
-
 
 router.post("/verify-reset-otp", async (req, res) => {
   try {
@@ -198,7 +194,6 @@ router.post("/verify-reset-otp", async (req, res) => {
     return res.status(500).json({ message: "Error verifying reset otp" });
   }
 });
-
 
 router.post("/reset-password", async (req, res) => {
   try {

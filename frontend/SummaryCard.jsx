@@ -1,29 +1,28 @@
-export default function SmartCard({
-  title,
-  amount,
-  color,
-  img,
-  h,
-}) {
-  return (
-    <div className="bg-[#FFFFFF] rounded-xl shadow-1xl p-3 text-left w-75 h-35 flex justify-around ">
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
 
-      <div>
-        <h1 className={`text-4xl font-bold ${color}`}>
+export default function SmartCard({ title, amount, color, img, h }) {
+  return (
+    <div className="bg-white rounded-xl  shadow-sm p-4 text-left w-full min-h-[120px] flex items-center justify-between gap-4 transition-all hover:shadow-md">
+      {/* Text Area */}
+      <div className="flex-1 min-w-0">
+        <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight truncate ${color}`}>
           {amount}
         </h1>
-
-        <p className="text-[#1E293B] text-2xl mt-2">
+        <p className="text-slate-500 text-sm sm:text-base font-medium mt-1 truncate">
           {title}
         </p>
       </div>
       
-      <div>
-        <img src={img} className={`${h}`}/>
+      {/* Icon/Image Wrapper Area */}
+      <div className="flex-shrink-0">
+        <img 
+          src={img} 
+          className={`${h || 'h-12 w-12'} object-contain`} 
+          alt={`${title} icon`} 
+        />
       </div>
-
-
-
     </div>
   );
 }
