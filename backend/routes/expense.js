@@ -1,5 +1,5 @@
 const express = require("express");
-const Expense = require("../model/ExpenseModel.js");
+const Expense = require("../model/expenseModel.js");
 const authMiddleware = require("../middleware/auth.js");
 const mongoose = require("mongoose");
 // const app = express();
