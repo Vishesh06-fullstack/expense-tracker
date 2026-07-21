@@ -1,8 +1,7 @@
 require('dotenv').config();
-let nodemailer = require("nodemailer");
 
 const {Resend} = require("resend");
-const resend = process.env.RESEND_API_KEY
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // let transporter = nodemailer.createTransport({
 //     host: "smtp.gmail.com",
@@ -18,13 +17,11 @@ const resend = process.env.RESEND_API_KEY
 const sendEmail = async (otp, email) => {
     try {
         const {data , error } = await resend.emails.send({
-            from: `"Expense Tracker" <${process.env.mail_user}>`,
+            from: 'Expense Tracker <onboarding@resend.dev>',
             to: email,
             subject: "Your OTP Verification code",
             html: `<div><h1>${otp}</h1></div>`,
         });
-
-        
 
         if(error){
             console.log("Email sending failed" , error);
