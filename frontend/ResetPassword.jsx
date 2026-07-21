@@ -31,6 +31,7 @@ function ResetPassword() {
       toast.success(response.data.message);
       setStep("otp");
     } catch (error) {
+      console.log("error");
       toast.error(error.response?.data?.message || "Failed to send OTP");
     }
   };
@@ -50,7 +51,6 @@ function ResetPassword() {
       toast.error(error.response?.data?.message || "Invalid OTP");
     }
   };
-
   
   const handleResetPassword = async (e) => {
     e.preventDefault();

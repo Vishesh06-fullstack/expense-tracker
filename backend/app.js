@@ -7,6 +7,9 @@ const test = require("./routes/protect.js");
 const expenseRoutes = require("./routes/expense.js")
 const { connectDB } = require("./db.js");
 
+
+console.log(process.env.mail_password);
+
 app.use(cors());
 const PORT = process.env.PORT;
 app.use(express.json());
