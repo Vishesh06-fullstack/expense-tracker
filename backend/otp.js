@@ -24,10 +24,13 @@ const sendEmail = async (otp, email) => {
             html: `<div><h1>${otp}</h1></div>`,
         });
 
+        
+
         if(error){
             console.log("Email sending failed" , error);
             return false;
         }
+        console.log("Email sent: " , data.id);
        return true;
     } catch (error) {
         console.log("Email sending failed:", error.message);
