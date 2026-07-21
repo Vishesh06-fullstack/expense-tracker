@@ -1,28 +1,34 @@
 require('dotenv').config();
 let nodemailer = require("nodemailer");
 
-let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    family: 4,
-    auth: {
-        user: process.env.mail_user,
-        pass: process.env.mail_password,
-    },
-});
+const {Resend} = require("resend");
+const resend = process.env.RESEND_API_KEY
+
+// let transporter = nodemailer.createTransport({
+//     host: "smtp.gmail.com",
+//     port: 465,
+//     secure: true,
+//     family: 4,
+//     auth: {
+//         user: process.env.mail_user,
+//         pass: process.env.mail_password,
+//     },
+// });
 
 const sendEmail = async (otp, email) => {
     try {
-        const mailOptions = {
+        const {data , error } = await resend.emails.send({
             from: `"Expense Tracker" <${process.env.mail_user}>`,
             to: email,
             subject: "Your OTP Verification code",
             html: `<div><h1>${otp}</h1></div>`,
-        };
-        const info = await transporter.sendMail(mailOptions);
-        console.log("Email sent:", info.messageId);
-        return true;
+        });
+
+        if(error){
+            console.log("Email sending failed" , error);
+            return false;
+        }
+       return true;
     } catch (error) {
         console.log("Email sending failed:", error.message);
         return false;
