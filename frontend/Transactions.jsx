@@ -39,6 +39,10 @@ function Transactions() {
     }
   };
 
+  useEffect(() => {
+     handleDelete();
+  } , [])
+
   const handleEdit = (item) => {
     setEditingItems({ ...item });
   };

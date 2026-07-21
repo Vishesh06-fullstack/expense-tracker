@@ -36,7 +36,6 @@ function ResetPassword() {
     }
   };
 
-
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     try {
