@@ -39,7 +39,7 @@ function Login() {
         Navigate("/Dashboard");
       }
     } catch (error) {
-      toast.error(error);
+      // toast.error(error);
     }
   };
 
