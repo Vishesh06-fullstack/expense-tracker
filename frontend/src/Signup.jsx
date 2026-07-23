@@ -41,9 +41,11 @@ function Signup() {
       toast.success("SignUp successfully");
       if (response.status == 201) {
         navigate("/OtpVerify");
+        toast.success(response.data.message);
+        toast.info(response.data.otp);
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(error.response?.data?.message);
     }
   };
 

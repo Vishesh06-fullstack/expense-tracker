@@ -30,9 +30,7 @@ function Login() {
         formData
       );
       console.log(response);
-
       toast.success(response.data.message);
-
       localStorage.setItem("token", response.data.token);
       setToken(response.data.token);
 

@@ -14,6 +14,9 @@ function OtpVerify() {
     useEffect(() => {
         const savedEmail = localStorage.getItem("email");
         setData((prev) => ({...prev , email : savedEmail}))
+        
+        
+        
     }, []);
 
     const handleOtpChange = (e) => {
