@@ -60,7 +60,7 @@ function Signup() {
       </div>
 
       {/* Main Container - Responsive layout & min-height */}
-      <div className="flex justify-center items-center min-h-[calc(100vh-64px)] px-4 py-8 bg-[#FAF9F6]">
+      <div className="flex justify-center items-center min-h-[calc(100vh-64px)] mt-5 px-4 py-8 bg-[#FAF9F6]">
         
         {/* Card Container - Dynamic width, modern borders, shadow on hover */}
         <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 w-full max-w-md">

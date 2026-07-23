@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom";
 
 function AddTransaction() {
@@ -23,9 +23,9 @@ function AddTransaction() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
 
-   
+
+
     try {
       const token = localStorage.getItem("token");
       console.log("TOKEN VALUE:", token)
@@ -51,9 +51,27 @@ function AddTransaction() {
       <div className="bg-white p-5 rounded border-2 w-full max-w-md hover:bg-gray-100">
         <h1 className="text-center text-2xl mb-2">Add Transaction</h1>
         <form onSubmit={handleSubmit}>
+
           <div className="flex flex-col mb-4">
             <label>
-              <strong  className="font-medium">
+              <strong className="font-medium ">
+                Category
+              </strong>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Category"
+              autoComplete="off"
+              name="category"
+              value={formData.category}
+              className="border border-gray-300 rounded px-2 py-1 text-sm w-full font-sans"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label>
+              <strong className="font-medium">
                 title
               </strong>
             </label>
@@ -87,7 +105,7 @@ function AddTransaction() {
 
           <div className="flex flex-col mb-4">
             <label>
-              <strong  className="font-medium">
+              <strong className="font-medium">
                 Date
               </strong>
             </label>
@@ -96,25 +114,8 @@ function AddTransaction() {
               name="date"
               placeholder="Enter Date"
               autoComplete="off"
-             
-              value={formData.date}
-              className="border border-gray-300 rounded px-2 py-1 text-sm w-full font-sans"
-              onChange={handleChange}
-            />
-          </div>
 
-          <div className="flex flex-col mb-4">
-            <label>
-              <strong  className="font-medium ">
-                Category
-              </strong>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter Category"
-              autoComplete="off"
-              name="category"
-              value={formData.category}
+              value={formData.date}
               className="border border-gray-300 rounded px-2 py-1 text-sm w-full font-sans"
               onChange={handleChange}
             />
@@ -133,7 +134,7 @@ function AddTransaction() {
               value={formData.paymentMode}
               name="paymentMode"
               className="border border-gray-300 rounded px-2 py-1 text-sm w-full font-sans"
-               onChange={handleChange}
+              onChange={handleChange}
             >
               <option value="">Select Payment Mode</option>
               <option value="UPI">UPI</option>
@@ -146,7 +147,7 @@ function AddTransaction() {
 
           <div className="flex flex-col mb-4">
             <label>
-              <strong  className="font-medium">
+              <strong className="font-medium">
                 notes
               </strong>
             </label>
@@ -163,7 +164,7 @@ function AddTransaction() {
 
           <div className="flex flex-col mb-4">
             <label>
-              <strong  className="font-medium">
+              <strong className="font-medium">
                 Amount
               </strong>
             </label>
