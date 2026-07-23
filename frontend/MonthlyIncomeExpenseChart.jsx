@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {motion} from "framer-motion";
 import {
   ResponsiveContainer,
   BarChart,
@@ -64,36 +65,126 @@ export default function MonthlyIncomeExpenseChart() {
     getMonthDetails();
   }, []);
 
-  return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-2 w-full h-80">
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Monthly Income vs Expense
-        </h2>
-        <p className="text-sans text-gray-500">
-          Compare your monthly income and expenses.
-        </p>
-      </div>
+ return (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6 }}
+    whileHover={{
+      y: -4,
+      boxShadow: "0px 18px 35px rgba(0,0,0,0.08)",
+    }}
+    className="bg-white rounded-3xl border border-gray-200 shadow-lg p-5 w-full h-[380px] transition-all"
+  >
+    {/* Header */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.2 }}
+      className="mb-5"
+    >
+      <h2 className="text-2xl font-bold text-gray-800">
+        Monthly Income vs Expense
+      </h2>
 
-      {loading ? (
-        <p className="text-gray-400 text-sm">Loading chart...</p>
-      ) : data.length === 0 ? (
-        <p className="text-gray-400 text-sm">No data yet</p>
-      ) : (
-        <ResponsiveContainer width="100%" height="80%">
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="4 4" />
-            <XAxis dataKey="month" tick={{ fontSize: 13 }} />
-            <YAxis tick={{ fontSize: 13 }} />
-            <Tooltip
-              formatter={(value) => [`₹${value.toLocaleString()}`,]}
+      <p className="text-gray-500 mt-1 text-sm">
+        Compare your monthly income and expenses.
+      </p>
+    </motion.div>
+
+    {/* Loading */}
+    {loading ? (
+      <motion.div
+        animate={{
+          opacity: [0.3, 1, 0.3],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 1.2,
+        }}
+        className="flex justify-center items-center h-[260px]"
+      >
+        <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </motion.div>
+    ) : data.length === 0 ? (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex justify-center items-center h-[260px]"
+      >
+        <p className="text-gray-400 text-lg">
+          No data available 📊
+        </p>
+      </motion.div>
+    ) : (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3 }}
+        className="h-[280px]"
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={data}
+            margin={{
+              top: 10,
+              right: 20,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid
+              strokeDasharray="4 4"
+              stroke="#E5E7EB"
             />
-            <Legend wrapperStyle={{ fontSize: "15px", paddingBottom: "6px" }} />
-            <Bar dataKey="income" name="Income" fill="#22C55E" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="expense" name="Expense" fill="#EF4444" radius={[4, 4, 0, 0]} />
+
+            <XAxis
+              dataKey="month"
+              tick={{ fontSize: 13 }}
+            />
+
+            <YAxis
+              tick={{ fontSize: 13 }}
+            />
+
+            <Tooltip
+              contentStyle={{
+                borderRadius: "12px",
+                border: "none",
+                boxShadow: "0 8px 20px rgba(0,0,0,.12)",
+              }}
+              formatter={(value) => [
+                `₹${value.toLocaleString()}`,
+              ]}
+            />
+
+            <Legend
+              wrapperStyle={{
+                fontSize: "14px",
+                paddingTop: "8px",
+              }}
+            />
+
+            <Bar
+              dataKey="income"
+              fill="#22C55E"
+              name="Income"
+              radius={[8, 8, 0, 0]}
+              animationDuration={1200}
+            />
+
+            <Bar
+              dataKey="expense"
+              fill="#EF4444"
+              name="Expense"
+              radius={[8, 8, 0, 0]}
+              animationDuration={1200}
+            />
           </BarChart>
         </ResponsiveContainer>
-      )}
-    </div>
-  );
+      </motion.div>
+    )}
+  </motion.div>
+);
 }

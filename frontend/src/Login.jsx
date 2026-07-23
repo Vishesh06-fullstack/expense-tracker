@@ -5,6 +5,7 @@ import OtpVerify from "../OtpVerify";
 import ResetPassword from "../ResetPassword";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {motion} from "framer-motion";
 
 function Login() {
   const Navigate = useNavigate();
@@ -39,99 +40,154 @@ function Login() {
         Navigate("/Dashboard");
       }
     } catch (error) {
-      // toast.error(error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
   return (
-    <>
-      <div>
-        <Navbar
-          heading={"Expense Tracker"}
-          a1={"Signup"}
-          a2={"Login"}
-          width={"w-22"}
-          l1={"/Signup"}
-          l2={"/Login"}
-        />
-      </div>
+  <>
+  <div>
+    <Navbar
+      heading={"Expense Tracker"}
+      a1={"Signup"}
+      a2={"Login"}
+      width={"w-22"}
+      l1={"/Signup"}
+      l2={"/Login"}
+    />
+  </div>
 
-      {/* Main Container - Fully responsive padding & min-height */}
-      <div className="flex justify-center items-center min-h-[calc(100vh-64px)] px-4 py-8 bg-[#FAF9F6]">
-        
-        {/* Card Component - Smooth scaling, flex growth, hover shadows */}
-        <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 w-full max-w-md">
-          <h2 className="text-center text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
-            Login
-          </h2>
+  <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-emerald-50 via-white to-green-100 flex justify-center items-center px-4 py-8">
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email Field */}
-            <div className="flex flex-col">
-              <label htmlFor="email" className="mb-1 text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="Enter Email"
-                autoComplete="off"
-                name="email"
-                className="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition duration-200"
-                value={formData.email}
-                onChange={onhandleChange}
-              />
-            </div>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 60 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{
+        duration: 0.7,
+        ease: "easeOut",
+      }}
+      whileHover={{
+        y: -8,
+        boxShadow: "0px 20px 40px rgba(16,185,129,0.18)",
+      }}
+      className="w-full max-w-md bg-white rounded-3xl p-8 border border-gray-200 shadow-xl"
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-3xl font-bold text-center text-gray-800 mb-8"
+      >
+        Welcome Back 👋
+      </motion.h2>
 
-            {/* Password Field */}
-            <div className="flex flex-col">
-              <label htmlFor="password" className="mb-1 text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="Enter Password"
-                autoComplete="off"
-                name="password"
-                value={formData.password}
-                className="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition duration-200"
-                onChange={onhandleChange}
-              />
-            </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* Submit Button with Hover & Active States */}
-            <button
-              type="submit"
-              className="w-full py-2.5 mt-2 text-sm md:text-base font-medium bg-[#10B981] hover:bg-[#059669] text-white rounded-lg shadow-sm hover:shadow transition-all duration-200 active:scale-[0.99] cursor-pointer"
+        {/* Email */}
+
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            Email
+          </label>
+
+          <motion.input
+            whileFocus={{
+              scale: 1.02,
+            }}
+            type="email"
+            placeholder="Enter Email"
+            autoComplete="off"
+            name="email"
+            value={formData.email}
+            onChange={onhandleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
+
+        {/* Password */}
+
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.45 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            Password
+          </label>
+
+          <motion.input
+            whileFocus={{
+              scale: 1.02,
+            }}
+            type="password"
+            placeholder="Enter Password"
+            autoComplete="off"
+            name="password"
+            value={formData.password}
+            onChange={onhandleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
+
+        {/* Button */}
+
+        <motion.button
+          whileHover={{
+            scale: 1.04,
+            boxShadow: "0px 12px 30px rgba(16,185,129,0.35)",
+          }}
+          whileTap={{
+            scale: 0.96,
+          }}
+          transition={{
+            duration: 0.2,
+          }}
+          type="submit"
+          className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold"
+        >
+          Login
+        </motion.button>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="text-center"
+        >
+          <a
+            href="/ResetPassword"
+            className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            Forgot Password?
+          </a>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="border-t pt-5 text-center"
+        >
+          <p className="text-sm text-gray-600">
+            Don't have an account?{" "}
+            <a
+              href="/Signup"
+              className="font-semibold text-emerald-600 hover:underline"
             >
-              Login
-            </button>
+              Signup
+            </a>
+          </p>
+        </motion.div>
 
-            {/* Forget Password */}
-            <div className="text-sm font-medium text-center pt-1">
-              <a
-                href="/ResetPassword"
-                className="text-blue-600 hover:text-blue-800 hover:underline transition duration-150"
-              >
-                Forgot Password?
-              </a>
-            </div>
+      </form>
+    </motion.div>
 
-            {/* Redirect Option */}
-            <div className="pt-2 text-center border-t border-gray-100">
-              <p className="text-sm text-gray-600">
-                Don't have an account?{" "}
-                <a
-                  href="/Signup"
-                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline transition duration-150"
-                >
-                  Signup
-                </a>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
+  </div>
+</>
   );
 }
 

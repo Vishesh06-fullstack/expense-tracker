@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import OtpVerify from "../OtpVerify";
 import axios from "axios";
+import {motion} from "framer-motion";
 import { toast } from "react-toastify";
 
 function Signup() {
@@ -47,100 +48,139 @@ function Signup() {
   };
 
   return (
-    <>
-      <div>
-        <Navbar
-          heading={"Expense Tracker"}
-          a1={"Signup"}
-          a2={"Login"}
-          width={"w-22"}
-          l1={"/Signup"}
-          l2={"/Login"}
-        />
-      </div>
+   <>
+  <div>
+    <Navbar
+      heading={"Expense Tracker"}
+      a1={"Signup"}
+      a2={"Login"}
+      width={"w-22"}
+      l1={"/Signup"}
+      l2={"/Login"}
+    />
+  </div>
 
-      {/* Main Container - Responsive layout & min-height */}
-      <div className="flex justify-center items-center min-h-[calc(100vh-64px)] px-4 py-8 bg-[#FAF9F6]">
-        
-        {/* Card Container - Dynamic width, modern borders, shadow on hover */}
-        <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 w-full max-w-md">
-          <h2 className="text-center text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
-            Signup
-          </h2>
+  <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-emerald-50 via-white to-green-100 flex justify-center items-center px-4 py-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 60 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      whileHover={{
+        y: -8,
+        boxShadow: "0px 20px 40px rgba(16,185,129,0.18)",
+      }}
+      className="w-full max-w-md bg-white rounded-3xl p-8 border border-gray-200 shadow-xl"
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-3xl font-bold text-center text-gray-800 mb-8"
+      >
+        Create Account 🚀
+      </motion.h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Name Field */}
-            <div className="flex flex-col">
-              <label htmlFor="name" className="mb-1 text-sm font-medium text-gray-700">
-                Name
-              </label>
-              <input
-                type="text"
-                placeholder="Enter Name"
-                autoComplete="off"
-                name="name"
-                value={formData.name}
-                className="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition duration-200"
-                onChange={handleChange}
-              />
-            </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Name */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            Name
+          </label>
 
-            {/* Email Field */}
-            <div className="flex flex-col">
-              <label htmlFor="email" className="mb-1 text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="Enter Email"
-                autoComplete="off"
-                name="email"
-                className="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition duration-200"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
+            type="text"
+            placeholder="Enter Name"
+            autoComplete="off"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
 
-            {/* Password Field */}
-            <div className="flex flex-col">
-              <label htmlFor="password" className="mb-1 text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="Enter Password"
-                autoComplete="off"
-                name="password"
-                className="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition duration-200"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
+        {/* Email */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.45 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            Email
+          </label>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full py-2.5 mt-2 text-sm md:text-base font-medium bg-[#10B981] hover:bg-[#059669] text-white rounded-lg shadow-sm hover:shadow transition-all duration-200 active:scale-[0.99] cursor-pointer"
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
+            type="email"
+            placeholder="Enter Email"
+            autoComplete="off"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
+
+        {/* Password */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            Password
+          </label>
+
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
+            type="password"
+            placeholder="Enter Password"
+            autoComplete="off"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
+
+        {/* Signup Button */}
+        <motion.button
+          whileHover={{
+            scale: 1.04,
+            boxShadow: "0px 12px 30px rgba(16,185,129,0.35)",
+          }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ duration: 0.2 }}
+          type="submit"
+          className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold"
+        >
+          Create Account
+        </motion.button>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="border-t pt-5 text-center"
+        >
+          <p className="text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link
+              to="/Login"
+              className="font-semibold text-emerald-600 hover:underline"
             >
-              Signup
-            </button>
-
-            {/* Footer Redirect Link */}
-            <div className="pt-3 text-center border-t border-gray-100">
-              <p className="text-sm text-gray-600">
-                Already have an account?{" "}
-                <Link
-                  to="/Login"
-                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline transition duration-150"
-                >
-                  Login
-                </Link>
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
+              Login
+            </Link>
+          </p>
+        </motion.div>
+      </form>
+    </motion.div>
+  </div>
+</>
   );
 }
 
