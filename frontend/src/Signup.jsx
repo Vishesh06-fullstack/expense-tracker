@@ -99,6 +99,7 @@ function Signup() {
             placeholder="Enter Name"
             autoComplete="off"
             name="name"
+            required
             value={formData.name}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
@@ -121,6 +122,7 @@ function Signup() {
             placeholder="Enter Email"
             autoComplete="off"
             name="email"
+            required
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
@@ -140,6 +142,7 @@ function Signup() {
           <motion.input
             whileFocus={{ scale: 1.02 }}
             type="password"
+            required
             placeholder="Enter Password"
             autoComplete="off"
             name="password"
