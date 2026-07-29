@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 function AddTransaction() {
@@ -22,6 +23,9 @@ function AddTransaction() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const backToDashBoard = () => {
+    navigate('/Dashboard')
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,6 +60,8 @@ function AddTransaction() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-100 flex justify-center items-center px-4 py-8">
+     
+
       <motion.div
         initial={{ opacity: 0, y: 60, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -63,7 +69,9 @@ function AddTransaction() {
         whileHover={{ y: -5 }}
         className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-gray-200 p-6 sm:p-8"
       >
+        <p className="cursor-pointer" onClick={backToDashBoard}><FaLongArrowAltLeft/></p>
         <motion.h1
+          
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
