@@ -10,7 +10,9 @@ const { connectDB } = require("./db.js");
 
 console.log(process.env.mail_password);
 
-app.use(cors());
+app.use(cors({
+     origin: "http://localhost:5173",
+}));
 const PORT = process.env.PORT;
 app.use(express.json());
 
