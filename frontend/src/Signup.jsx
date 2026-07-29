@@ -143,6 +143,7 @@ function Signup() {
             whileFocus={{ scale: 1.02 }}
             type="password"
             required
+            
             placeholder="Enter Password"
             autoComplete="off"
             name="password"
