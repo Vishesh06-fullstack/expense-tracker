@@ -14,12 +14,24 @@ function Signup() {
     password: "",
   });
 
+  const [error ,setError] = useState([{
+    name : "",
+    email : "",
+    password : ""
+  }]);
+
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    if(error[name]){
+      setError({...prev , [name] : ""})
+    }
   };
 
   const handleSubmit = async (e) => {

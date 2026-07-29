@@ -97,6 +97,7 @@ function Login() {
               scale: 1.02,
             }}
             type="email"
+            required
             placeholder="Enter Email"
             autoComplete="off"
             name="email"
@@ -122,6 +123,7 @@ function Login() {
               scale: 1.02,
             }}
             type="password"
+            required
             placeholder="Enter Password"
             autoComplete="off"
             name="password"
