@@ -1,32 +1,36 @@
-require('dotenv').config();
-let nodemailer = require("nodemailer");
+require("dotenv").config();
+const nodemailer = require("nodemailer");
 
-let transporter = nodemailer.createTransport({
-  service: "gmail",
+const transporter = nodemailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: Number(process.env.MAIL_PORT),
+  secure: false,
+  requireTLS: true,
   auth: {
-    user: process.env.mail_user,
-    pass: process.env.mail_password,
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
-
 const sendEmail = async (otp, email) => {
   try {
-    const mailOptions = {
-      from: `Email expenses : ${process.env.mail_user}`,
+    const info = await transporter.sendMail({
+      from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_FROM}>`,
       to: email,
-      subject: "Your otp Verification code",
-      html: `<div>
-                <h1>${otp}</h1>
-            </div>
-        `,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(info);
-    console.log("Email sent :", info.messageId);
+      subject: "Your OTP Verification Code",
+      html: `
+        <div>
+          <h2>Expense Tracker</h2>
+          <h1>${otp}</h1>
+          <p>Your OTP is valid for 5 minutes.</p>
+        </div>
+      `,
+    });
+
+    console.log("Email sent:", info.messageId);
     return true;
   } catch (error) {
-    console.log("Email sending failed :", error.message);
+    console.log("Email sending failed:", error);
     return false;
   }
 };

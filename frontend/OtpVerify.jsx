@@ -3,16 +3,20 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import { useEffect } from "react";
+import {motion} from "framer-motion";
 
 function OtpVerify() {
       const navigate = useNavigate();
     const [data , setData] = useState({
-        email : "",
-        otp : ""
+           email : "",
+           otp : ""
     });
     useEffect(() => {
         const savedEmail = localStorage.getItem("email");
         setData((prev) => ({...prev , email : savedEmail}))
+        
+        
+        
     }, []);
 
     const handleOtpChange = (e) => {
@@ -52,60 +56,107 @@ function OtpVerify() {
         }
     } 
 
-    return (
-        <div className="flex justify-center items-center h-screen pt-6 bg-[#FAF9F6]">
-            <div className="bg-white p-5 rounded border-2 w-90 h-80 hover:bg-gray-100">
-                <h2 className="text-center text-2xl mb-2">Otp Verify</h2>
+  return (
+  <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-100 flex justify-center items-center px-4 py-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 60 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      whileHover={{
+        y: -8,
+        boxShadow: "0px 20px 40px rgba(16,185,129,0.18)",
+      }}
+      className="w-full max-w-md bg-white rounded-3xl p-8 border border-gray-200 shadow-xl"
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-3xl font-bold text-center text-gray-800 mb-8"
+      >
+        Verify OTP 🔐
+      </motion.h2>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4 flex flex-col">
-                        <label htmlFor="email">
-                            <strong className="font-medium">Email</strong>
-                        </label>
-                        <input
-                            type="text"
-                            id="email"
-                            placeholder="Enter Email"
-                            autoComplete="off"
-                            name="email"
-                            value={data.email}
-                            onChange={handleOtpChange}
-                            className="border border-gray-300 rounded-none px-3 py-2 text-sm w-full"
-                        />
-                    </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Email */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            Email
+          </label>
 
-                    <div className="mb-4 flex flex-col">
-                        <label htmlFor="otp">
-                            <strong className="font-medium">Otp Verify</strong>
-                        </label>
-                        <input
-                            type="text"
-                            id="otp"
-                            inputMode="numeric"
-                            placeholder="Enter 6-digit otp"
-                            autoComplete="off"
-                            maxLength={6}
-                            value={data.otp}
-                            name="otp"
-                            onChange={handleOtpChange}
-                            className="border border-gray-300 rounded-none px-3 py-2 text-sm w-full"
-                        />
-                    </div>
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
+            type="text"
+            name="email"
+            placeholder="Enter Email"
+            autoComplete="off"
+            value={data.email}
+            onChange={handleOtpChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
 
-                    <button
-                        type="submit"
-                        className="text-center text-[15px] py-1 px-3 w-full mt-3 mr-1 bg-[#10B981] text-white rounded-xl hover:bg-blue-800"
-                    >
-                        Verify
-                    </button>
+        {/* OTP */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.45 }}
+        >
+          <label className="block mb-2 text-sm font-semibold text-gray-700">
+            OTP
+          </label>
 
-                    <div className="text-[14px] font-normal flex justify-center p-2 text-blue-800 items-center">
-                        <button className="cursor" type="button" onClick={handleResendOtp}>Resend Otp</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+          <motion.input
+            whileFocus={{ scale: 1.02 }}
+            type="text"
+            inputMode="numeric"
+            maxLength={6}
+            name="otp"
+            placeholder="Enter 6-digit OTP"
+            autoComplete="off"
+            value={data.otp}
+            onChange={handleOtpChange}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 tracking-[0.4em] text-center text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          />
+        </motion.div>
+
+        {/* Verify Button */}
+        <motion.button
+          whileHover={{
+            scale: 1.04,
+            boxShadow: "0px 12px 30px rgba(16,185,129,0.35)",
+          }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ duration: 0.2 }}
+          type="submit"
+          className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold"
+        >
+          Verify OTP
+        </motion.button>
+
+        {/* Resend */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="text-center"
+        >
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            className="text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:underline transition"
+          >
+            Resend OTP
+          </button>
+        </motion.div>
+      </form>
+    </motion.div>
+  </div>
+);
 }
 
 export default OtpVerify;

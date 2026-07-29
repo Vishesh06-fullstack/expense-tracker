@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
     await newUser.save();
     console.log(otp);
     
-    return res.status(201).json({ message: "OTP sent successfully", email});
+    return res.status(201).json({ message: "OTP sent successfully", email , otp});
   } catch (error) {
     console.log("error", error);
     res.status(500).json({ message: "Error while registration" });
@@ -128,7 +128,7 @@ router.post("/resend-otp", async (req, res) => {
     await sendEmail(user.email, otp);
     res.json({ message: "OTP reset successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message  , otp});
   }
 });
 
@@ -153,7 +153,7 @@ router.post("/forgot-password", async (req, res) => {
 
     const emailSent = await sendEmail(otp, email);
     if (!emailSent) {
-      return res.status(500).json({ message: "Failed to send OTP email" });
+      return res.status(500).json({ message: "Failed to send OTP email" , otp});
     }
 
     await user.save(); // existing user update, naya document nahi

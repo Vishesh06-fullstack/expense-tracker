@@ -39,6 +39,7 @@ function Transactions() {
     }
   };
 
+
   const handleEdit = (item) => {
     setEditingItems({ ...item });
   };

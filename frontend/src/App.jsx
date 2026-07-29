@@ -8,8 +8,6 @@ import AddTransaction from '../AddTransaction'
 import OtpVerify from '../OtpVerify'
 import ResetPassword from '../ResetPassword'
 
-
-
 // import Home from './Home'
 
 
