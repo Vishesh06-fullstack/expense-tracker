@@ -7,6 +7,7 @@ import Home from './Home'
 import AddTransaction from '../AddTransaction'
 import OtpVerify from '../OtpVerify'
 import ResetPassword from '../ResetPassword'
+import ProtectRoute from './ProtectRoute'
 
 // import Home from './Home'
 
@@ -21,7 +22,10 @@ function App(){
       <Route path='/OtpVerify' element={<OtpVerify/>}></Route>
       <Route path='/AddTransaction' element={<AddTransaction/>}></Route> 
       <Route path='/' element={<Home/>}></Route>
-      <Route path='/Dashboard' element={<Dashboard/>}></Route> 
+
+      <Route element={<ProtectRoute/>}>
+         <Route path='/Dashboard' element={<Dashboard/>}></Route> 
+      </Route>
       <Route path='/Signup' element={<Signup/>}></Route>
       <Route path='/Login' element={<Login/>}></Route>
 

@@ -6,7 +6,10 @@ import { useEffect } from "react";
 import {motion} from "framer-motion";
 
 function OtpVerify() {
+
+      const emailRegex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/"
       const navigate = useNavigate();
+      const [emailReg , setemailReg] = useState("");
     const [data , setData] = useState({
            email : "",
            otp : ""
