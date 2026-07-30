@@ -14,7 +14,7 @@ const passwordField = z
 
 const otpField = z
   .union([z.string(), z.number()])
-  .transform((val) => string(val).trim())
+  .transform((val) => String(val).trim())
   .refine((val) => /^\d{6}$/.test(val), "OTP must be a 6-digit number");
 
 const registerSchema = z.object({

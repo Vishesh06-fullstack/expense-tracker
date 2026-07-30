@@ -99,7 +99,7 @@ router.post("/verify-otp", validate(verifyOtpSchema), async (req, res) => {
     if (user.isActive) {
       return res.status(400).json({ message: "User already verified" });
     }
-    if (user.otp !== otp) {
+    if (Number(user.otp) !== Number(otp)) {
       return res.status(400).json({ message: "Invalid otp" });
     }
     if (user.otpExpiry < new Date()) {
