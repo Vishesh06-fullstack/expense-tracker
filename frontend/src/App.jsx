@@ -7,6 +7,7 @@ import Home from './Home'
 import AddTransaction from '../AddTransaction'
 import OtpVerify from '../OtpVerify'
 import ResetPassword from '../ResetPassword'
+import NoFound from './Pages/NoFound'
 import ProtectRoute from './ProtectRoute'
 
 // import Home from './Home'
@@ -19,12 +20,14 @@ function App(){
   
     <Routes>
       <Route path='/ResetPassword' element={<ResetPassword/>}></Route>
+     
       <Route path='/OtpVerify' element={<OtpVerify/>}></Route>
       <Route path='/AddTransaction' element={<AddTransaction/>}></Route> 
       <Route path='/' element={<Home/>}></Route>
 
       <Route element={<ProtectRoute/>}>
          <Route path='/Dashboard' element={<Dashboard/>}></Route> 
+          <Route path='*' element={<NoFound/>}></Route>
       </Route>
       <Route path='/Signup' element={<Signup/>}></Route>
       <Route path='/Login' element={<Login/>}></Route>

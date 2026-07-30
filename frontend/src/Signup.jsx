@@ -33,7 +33,7 @@ function Signup() {
     }
   };
 
-  // 🔴 naya: backend zod schema jaisa hi client-side check
+ 
   const validateForm = () => {
     const newErrors = { name: "", email: "", password: "" };
     let isValid = true;
@@ -51,7 +51,7 @@ function Signup() {
       isValid = false;
     }
 
-    // Email
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
@@ -61,7 +61,6 @@ function Signup() {
       isValid = false;
     }
 
-    // Password
     if (!formData.password) {
       newErrors.password = "Password is required";
       isValid = false;
@@ -112,7 +111,6 @@ function Signup() {
         toast.info(response.data.otp);
       }
     } catch (error) {
-      // 🔴 backend se field-specific error aaye toh usi input ke neeche dikhao
       const backendField = error.response?.data?.field;
       const backendMessage = error.response?.data?.message;
 
@@ -123,7 +121,6 @@ function Signup() {
       }
     }
   };
-
   return (
     <>
       <div>
@@ -146,7 +143,7 @@ function Signup() {
             y: -8,
             boxShadow: "0px 20px 40px rgba(16,185,129,0.18)",
           }}
-          className="w-full max-w-md bg-white rounded-3xl p-8 border border-gray-200 shadow-xl"
+          className="w-full max-w-md bg-white rounded-3xl p-5 border border-gray-200 shadow-xl"
         >
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
