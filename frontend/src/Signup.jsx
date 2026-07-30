@@ -14,7 +14,7 @@ function Signup() {
     password: "",
   });
 
-  // 🔴 naya: har field ka error alag se store hoga
+ 
   const [errors, setErrors] = useState({
     name: "",
     email: "",
@@ -151,7 +151,7 @@ function Signup() {
             transition={{ delay: 0.2 }}
             className="text-3xl font-bold text-center text-gray-800 mb-8"
           >
-            Create Account 🚀
+            Create Account
           </motion.h2>
 
           {/* noValidate: browser ka default tooltip validation off, apna wala use karenge */}

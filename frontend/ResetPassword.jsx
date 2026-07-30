@@ -13,6 +13,8 @@ function ResetPassword() {
     resetToken: "",
   });
 
+  const [error , setError] = useState("");
+
   const [step, setStep] = useState("email"); 
 
   const handleChange = (e) => {
