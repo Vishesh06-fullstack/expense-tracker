@@ -13,16 +13,70 @@ function ResetPassword() {
     resetToken: "",
   });
 
+  const [error , setError] = useState("");
   const [step, setStep] = useState("email"); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setError("");
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
 
+  const validateEmail = () => {
+      if(data.email.trim() === ""){
+        setError("Email is required")
+        return false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(data.email)){
+        setError("Invalid email")
+        return false;
+      }
+      setError("")
+      return true;
+  }
+
+  const otpValidate = () => {
+     if(data.otp.trim() === ""){
+       setError("Otp required");
+       return false;
+     }
+
+     if(data.otp.length != 6){
+      setError("OTP must be a 6-digit number");
+       return false;
+     }
+
+     if(!/^\d+$/.test(data.otp)){
+        setError("OTP should contain only numbers");
+        return false;
+    }
+    setError("")
+    return true;
+  }
+
+  const passwordValidate = () => {
+     
+    if(data.newPassword === ""){
+      setError("Password is required");
+      return false;
+    }
+    if(data.newPassword.length < 8){
+       setError("Password should be more than 8 words");
+       return false;
+    }
+
+    setError("");
+    return true;
+  }
+
   const handleSendOtp = async (e) => {
+
+    if(!validateEmail()) return;
     e.preventDefault();
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
@@ -38,6 +92,7 @@ function ResetPassword() {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    if(!otpValidate()) return;
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/verify-reset-otp`,
@@ -53,6 +108,8 @@ function ResetPassword() {
   
   const handleResetPassword = async (e) => {
     e.preventDefault();
+
+    if(!passwordValidate()) return;
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/reset-password`,
@@ -88,6 +145,9 @@ function ResetPassword() {
             <button type="submit" className="text-center text-[15px] py-1 px-3 w-full mt-2 bg-[#10B981] text-white rounded-xl hover:bg-blue-800">
               Send OTP
             </button>
+            {error && (
+              <p className="text-red-700 font-bold text-sm mb-3 text-center"> {error}</p>
+            )}
           </form>
         )}
 
@@ -116,6 +176,9 @@ function ResetPassword() {
             <button type="submit" className="text-center text-[15px] py-1 px-3 w-full mt-2 bg-[#10B981] text-white rounded-xl hover:bg-blue-800">
               Verify OTP
             </button>
+             {error && (
+              <p className="text-red-700 font-bold text-sm mb-3 text-center"> {error}</p>
+            )}
           </form>
         )}
 
@@ -136,6 +199,9 @@ function ResetPassword() {
             <button type="submit" className="text-center text-[15px] py-1 px-3 w-full mt-2 bg-[#10B981] text-white rounded-xl hover:bg-blue-800">
               Save Password
             </button>
+             {error && (
+              <p className="text-red-700 font-bold text-sm mb-3 text-center"> {error}</p>
+            )}
           </form>
         )}
       </div>

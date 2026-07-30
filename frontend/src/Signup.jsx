@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import OtpVerify from "../OtpVerify";
 import axios from "axios";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 
 function Signup() {
@@ -14,13 +14,12 @@ function Signup() {
     password: "",
   });
 
-  const [error ,setError] = useState([{
-    name : "",
-    email : "",
-    password : ""
-  }]);
-
-
+ 
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,16 +27,70 @@ function Signup() {
       ...prev,
       [name]: value,
     }));
-
-    if(error[name]){
-      setError({...prev , [name] : ""})
+    // jaise hi user type karna shuru kare, us field ka error hata do
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+  };
+
+ 
+  const validateForm = () => {
+    const newErrors = { name: "", email: "", password: "" };
+    let isValid = true;
+
+    // Name
+    const trimmedName = formData.name.trim();
+    if (!trimmedName) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    } else if (trimmedName.split(" ").filter(Boolean).length < 2) {
+      newErrors.name = "Name should be more than 2 words";
+      isValid = false;
+    } else if (trimmedName.length > 50) {
+      newErrors.name = "Name should be not more than 50 words";
+      isValid = false;
+    }
+
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Enter a valid email address";
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+      isValid = false;
+    } else if (!/[A-Z]/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one uppercase letter";
+      isValid = false;
+    } else if (!/[a-z]/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one lowercase letter";
+      isValid = false;
+    } else if (!/[0-9]/.test(formData.password)) {
+      newErrors.password = "Password must contain at least one number";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 🔴 pehle client-side validate karo, agar fail toh API call hi mat karo
+    if (!validateForm()) {
+      return;
+    }
+
     try {
-      // backend submission logic
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/register`,
         formData
@@ -50,6 +103,7 @@ function Signup() {
         email: "",
         password: "",
       });
+      setErrors({ name: "", email: "", password: "" });
       toast.success("SignUp successfully");
       if (response.status == 201) {
         navigate("/OtpVerify");
@@ -57,148 +111,172 @@ function Signup() {
         toast.info(response.data.otp);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      const backendField = error.response?.data?.field;
+      const backendMessage = error.response?.data?.message;
+
+      if (backendField && errors.hasOwnProperty(backendField)) {
+        setErrors((prev) => ({ ...prev, [backendField]: backendMessage }));
+      } else {
+        toast.error(backendMessage || "Something went wrong");
+      }
     }
   };
-
   return (
-   <>
-  <div>
-    <Navbar
-      heading={"Expense Tracker"}
-      a1={"Signup"}
-      a2={"Login"}
-      width={"w-22"}
-      l1={"/Signup"}
-      l2={"/Login"}
-    />
-  </div>
+    <>
+      <div>
+        <Navbar
+          heading={"Expense Tracker"}
+          a1={"Signup"}
+          a2={"Login"}
+          width={"w-22"}
+          l1={"/Signup"}
+          l2={"/Login"}
+        />
+      </div>
 
-  <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-emerald-50 via-white to-green-100 flex justify-center items-center px-4 py-8">
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 60 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      whileHover={{
-        y: -8,
-        boxShadow: "0px 20px 40px rgba(16,185,129,0.18)",
-      }}
-      className="w-full max-w-md bg-white rounded-3xl p-8 border border-gray-200 shadow-xl"
-    >
-      <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="text-3xl font-bold text-center text-gray-800 mb-8"
-      >
-        Create Account 🚀
-      </motion.h2>
-
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Name */}
+      <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-emerald-50 via-white to-green-100 flex justify-center items-center px-4 py-8">
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <label className="block mb-2 text-sm font-semibold text-gray-700">
-            Name
-          </label>
-
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="text"
-            placeholder="Enter Name"
-            autoComplete="off"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-          />
-        </motion.div>
-
-        {/* Email */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.45 }}
-        >
-          <label className="block mb-2 text-sm font-semibold text-gray-700">
-            Email
-          </label>
-
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="email"
-            placeholder="Enter Email"
-            autoComplete="off"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-          />
-        </motion.div>
-
-        {/* Password */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <label className="block mb-2 text-sm font-semibold text-gray-700">
-            Password
-          </label>
-
-          <motion.input
-            whileFocus={{ scale: 1.02 }}
-            type="password"
-            required
-            
-            placeholder="Enter Password"
-            autoComplete="off"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-          />
-        </motion.div>
-
-        {/* Signup Button */}
-        <motion.button
+          initial={{ opacity: 0, scale: 0.9, y: 60 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           whileHover={{
-            scale: 1.04,
-            boxShadow: "0px 12px 30px rgba(16,185,129,0.35)",
+            y: -8,
+            boxShadow: "0px 20px 40px rgba(16,185,129,0.18)",
           }}
-          whileTap={{ scale: 0.96 }}
-          transition={{ duration: 0.2 }}
-          type="submit"
-          className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold"
+          className="w-full max-w-md bg-white rounded-3xl p-5 border border-gray-200 shadow-xl"
         >
-          Create Account
-        </motion.button>
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl font-bold text-center text-gray-800 mb-8"
+          >
+            Create Account
+          </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="border-t pt-5 text-center"
-        >
-          <p className="text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link
-              to="/Login"
-              className="font-semibold text-emerald-600 hover:underline"
+          {/* noValidate: browser ka default tooltip validation off, apna wala use karenge */}
+          <form onSubmit={handleSubmit} noValidate className="space-y-5">
+            {/* Name */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
             >
-              Login
-            </Link>
-          </p>
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                Name
+              </label>
+
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                type="text"
+                placeholder="Enter Name"
+                autoComplete="off"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 transition ${
+                  errors.name
+                    ? "border-red-500 focus:ring-red-400"
+                    : "border-gray-300 focus:ring-emerald-500"
+                }`}
+              />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+              )}
+            </motion.div>
+
+            {/* Email */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.45 }}
+            >
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                Email
+              </label>
+
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                type="email"
+                placeholder="Enter Email"
+                autoComplete="off"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 transition ${
+                  errors.email
+                    ? "border-red-500 focus:ring-red-400"
+                    : "border-gray-300 focus:ring-emerald-500"
+                }`}
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+              )}
+            </motion.div>
+
+            {/* Password */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <label className="block mb-2 text-sm font-semibold text-gray-700">
+                Password
+              </label>
+
+              <motion.input
+                whileFocus={{ scale: 1.02 }}
+                type="password"
+                placeholder="Enter Password"
+                autoComplete="off"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 transition ${
+                  errors.password
+                    ? "border-red-500 focus:ring-red-400"
+                    : "border-gray-300 focus:ring-emerald-500"
+                }`}
+              />
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+              )}
+            </motion.div>
+
+            {/* Signup Button */}
+            <motion.button
+              whileHover={{
+                scale: 1.04,
+                boxShadow: "0px 12px 30px rgba(16,185,129,0.35)",
+              }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              type="submit"
+              className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold"
+            >
+              Create Account
+            </motion.button>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              className="border-t pt-5 text-center"
+            >
+              <p className="text-sm text-gray-600">
+                Already have an account?{" "}
+                <Link
+                  to="/Login"
+                  className="font-semibold text-emerald-600 hover:underline"
+                >
+                  Login
+                </Link>
+              </p>
+            </motion.div>
+          </form>
         </motion.div>
-      </form>
-    </motion.div>
-  </div>
-</>
+      </div>
+    </>
   );
 }
 
